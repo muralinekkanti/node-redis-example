@@ -58,6 +58,7 @@ async function getHCacheData(req,res){
     let isCached = false;
     try{
         const cacheResults = await redisClient.hGetAll(key);
+        console.log(isEmpty(cacheResults));
         results= cacheResults;
     }catch(error){
         console.error(error);
@@ -68,9 +69,34 @@ async function getHCacheData(req,res){
       });
       console.timeEnd();
 }
+async function getValidate(req,res){
+  console.time();
+  const key=req.params.key;
+  let results;
+  let valid=false;
+  let isCached = false;
+  try{
+      const cacheResults = await redisClient.hGetAll(key);
+      //results= cacheResults;
+      valid=isEmpty(cacheResults);
+  }catch(error){
+      console.error(error);
+      res.status(404).send("Data unavailable");
+  }
+  res.send({
+      data: valid,
+    });
+    console.timeEnd();
+}
+
+function isEmpty(object) {  
+  return Object.keys(object).length === 0
+}
+
 
 app.get("/cache/:key", getCacheData);
 app.get("/hcache/:key", getHCacheData);
+app.get("/validate/:key", getValidate);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
