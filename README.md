@@ -1,4 +1,8 @@
 # node-redis-example
+NodeJS app to connect to IBM Cloud Databases for Redis.
+
+## Overview
+This repo provides a NodeJS sample code to connect to IBM Cloud Databases for Redis with advanced connection options using the TLS & CA cert.   This example app provides an API to read the value of the requested Key from the Redis DB cache.   To get started, follow these steps:
 
 To run this app, use npm start 
 
